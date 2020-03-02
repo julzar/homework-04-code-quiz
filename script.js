@@ -11,33 +11,62 @@ var questions = [
       choices: ["a) quotes", "b) curly brackets", "c) parentheses", "d) square brackets"],
       answer: "c) parentheses"
     }
+
   ];
   
 var currentQuestion = 0
 var totalTime = 1 * 60 * 1000
 var penaltyTime = 10 * 1000
 var tickTime = 1000
+var timeInterval
 
-
+// Append questions and answer choices to the page, and set id for the correct answer
 function getQuestion() {
-    var titleEL = document.createElement("h5");
+    if (currentQuestion < questions.length) {
+        var titleEL = document.createElement("h5");
     titleEL.textContent = questions[currentQuestion].title
     $("#question-title").html(titleEL)
     $("#question-choices").html("")
     questions[currentQuestion].choices.forEach(choice => {
         var choiceEl = document.createElement("button")
+
         var correctAnswer = questions[currentQuestion].answer
+
         choiceEl.textContent = choice
+
         choiceEl.className = "btn btn-primary btn-block choice-el"
-        $("#question-choices").append(choiceEl)
+
         if (choice == correctAnswer) {
-            $(".choice-el").on('click', function(event) {
-                event.stopPropagation()
-                console.log(`${choice} is Correct!`)
-            })     
-        } 
+            choiceEl.id = "correct"
+            
+        }
+        $("#question-choices").append(choiceEl)
     })
+    }
 }
+// Add event listener to answer choice buttons and call correctChoice/ incorrectChoice functions
+$("#question-choices").on('click', function(event) {
+    event.stopPropagation()
+    event.preventDefault()
+    if (event.target.matches("button")) {
+        if (event.target.id == "correct") {
+            correctChoice()
+            getQuestion()
+            console.log(currentQuestion)
+            console.log(`Correct!`)
+            if (currentQuestion >= questions.length) {
+                stopTimer()
+            }
+        } 
+        else {
+            incorrectChoice()
+            console.log('nope')
+        }
+    console.log(`clicked`)
+    }
+})
+
+
 // Nick's time format function
 function formatTime(ms) {
     var minutes = Math.floor(ms / 60000)
@@ -68,10 +97,33 @@ function tick() {
 }
 
 function startTimer() {
+    timeInterval = setInterval(countdown, tickTime)
     $("#timer").text(formatTime(totalTime))
-    var myInterval = setInterval(tick, tickTime)
-    if (totalTime <= 0) {
-        clearInterval(myInterval)
+    function countdown() {
+        //console.log(totalTime)
+        formatTime(totalTime)
+        tick()
+        if (totalTime <= 0) {
+            clearInterval(timeInterval)
+        }
+    }
+}
+
+// Stops the timer
+function stopTimer() {
+    clearInterval(timeInterval)
+}
+
+// Removes 10 seconds from the timer
+function incorrectChoice() {
+    totalTime -= penaltyTime
+    formatTime(totalTime)
+}
+
+//
+function correctChoice() {
+    if (currentQuestion < questions.length) {
+        currentQuestion++
     }
 }
 
@@ -80,28 +132,40 @@ $("#start-quiz").on('click', function() {
     getQuestion()
     $("#timer").show()
     startTimer()
-
-    //currentQuestion++
+    $("#start-quiz").css({"display": "none"})
 })
 // testing wrong answer effect on timer
-$("#wrong").on('click', function() {
-    totalTime -= penaltyTime
-    formatTime(totalTime)
-})
+// $("#wrong").on('click', function() {
+//     stopTimer()
+//     // totalTime -= penaltyTime
+//     // formatTime(totalTime)
+// })
 
 // Add/remove scores from local storage
+
 
 }) // final closing bracket
 
 
     // function startTimer() {
-    //     var currentTime = setInterval(countdown, 1000)
+    //     var timeInterval = setInterval(countdown, 1000)
     //     $("#timer").text(formatTime(totalTime))
     //     function countdown() {
     //         formatTime(totalTime)
     //         tick()
     //         if (totalTime <= 0) {
-    //             clearInterval(currentTime)
+    //             clearInterval(timeInterval)
     //         }
     //     }
     // }
+
+    // function startTimer() {
+//     $("#timer").text(formatTime(totalTime))
+//     var myInterval = setInterval(tick, tickTime)
+//     $("#timer").text(formatTime(totalTime))
+//     console.log(totalTime)
+//     if (totalTime <= 0) {
+//         alert('test')
+//         clearInterval(myInterval)
+//     }
+// }
