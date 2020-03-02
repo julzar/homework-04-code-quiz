@@ -9,42 +9,43 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
-    <title>Code Quiz</title>
+    <title>Code Quiz Save Score</title>
   </head>
   <body>
     
     <div class="container mb-5">
        <div class="row pt-3 pb-3">
-           <div class="col">
+           <div class="col-1 col-md-2 d-flex justify-content-start">
+               <a href="index.html">Back to Quiz</a>
+           </div>
+           <div class="col col-md-8 d-flex justify-content-center">
                <h1>Code Quiz Challenge</h1>
            </div>
-           <div class="col d-flex justify-content-end">
+           <div class="col-1 col-md-2 d-flex justify-content-end">
                <a href="scores.html">View High Scores</a>
            </div>
        </div>
     </div>
-    <div id="start-screen" class="container">
-        <div class="col-md-6" id="quiz-content">
-            <div class="row pt-3">
-                <h5 id="question-title">Rules:</h5>
-            </div>
-                <div class="row mb-3">
-                <!-- <div class="col"> -->
-                    <div id="question-choices">
-                    <p id="rules-text">Answer multiple choice questions about coding!
-                        The timer starts at one minute. Each wrong answer
-                        reduces the remaining time by 10 seconds.
-                        If the timer reaches zero, the game is over!
-                    </div>
-                <!-- </div> -->
-                    <div class="col d-flex align-self-center justify-content-center" id="timer-col">
-                        <div id="timer">TIMER</div>
-                    </div>
+    <div class="container">
+        <h5>Enter your innitials</h5>
+        <form>
+            <div class="form-row align-items-center">
+              <div class="col-auto">
+                <label class="sr-only" for="score-innitials">Innitials</label>
+                <input type="text" class="form-control mb-2" id="score-innitials" placeholder="AAA">
+              </div>
+              <div class="col-auto">
+                <label class="sr-only" for="score-time">Score</label>
+                <div class="input-group mb-2">
+                  <input type="text" readonly class="form-control-plaintext" id="score-time">
                 </div>
-            <div class="row d-flex justify-content-center">
-                <button type="button" class="btn btn-success btn-lg" id="start-quiz">Start</button>
+                <p id="test"></p>
+              </div>
+              <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-2">Save</button>
+              </div>
             </div>
-        </div>
+          </form>
     </div>
 
 

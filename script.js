@@ -20,7 +20,7 @@ var penaltyTime = 10 * 1000
 var tickTime = 1000
 var timeInterval
 
-// Append questions and answer choices to the page, and set id for the correct answer
+// Append questions and answer choices to the page, and set id for the choice matching the correct answer
 function getQuestion() {
     if (currentQuestion < questions.length) {
         var titleEL = document.createElement("h5");
@@ -56,6 +56,7 @@ $("#question-choices").on('click', function(event) {
             console.log(`Correct!`)
             if (currentQuestion >= questions.length) {
                 stopTimer()
+                getScoreInput()
             }
         } 
         else {
@@ -100,7 +101,6 @@ function startTimer() {
     timeInterval = setInterval(countdown, tickTime)
     $("#timer").text(formatTime(totalTime))
     function countdown() {
-        //console.log(totalTime)
         formatTime(totalTime)
         tick()
         if (totalTime <= 0) {
@@ -120,7 +120,7 @@ function incorrectChoice() {
     formatTime(totalTime)
 }
 
-//
+// Goes to the next question
 function correctChoice() {
     if (currentQuestion < questions.length) {
         currentQuestion++
@@ -134,14 +134,26 @@ $("#start-quiz").on('click', function() {
     startTimer()
     $("#start-quiz").css({"display": "none"})
 })
-// testing wrong answer effect on timer
-// $("#wrong").on('click', function() {
-//     stopTimer()
-//     // totalTime -= penaltyTime
-//     // formatTime(totalTime)
-// })
 
-// Add/remove scores from local storage
+// Navigates to an input form to save score
+function getScoreInput() {
+    //window.location = "savescore.html"
+    $("#question-title").html("Enter your innitials")
+    $("#question-choices").html("")
+    $("#timer").hide()
+    var innitialsIn = document.createElement("input")
+    var scoreTime = document.createElement("div")
+    innitialsIn.placeholder = "AAA"
+    innitialsIn.className = "form-control-inline mr-2"
+    scoreTime.textContent = formatTime(totalTime)
+    $("#question-choices").append(innitialsIn)
+    $("#question-choices").append(scoreTime)
+
+    
+    
+    
+}
+
 
 
 }) // final closing bracket
