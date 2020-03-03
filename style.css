@@ -14,3 +14,7 @@
     font-size: 200%;
     color: limegreen;
 }
+
+ul {
+    list-style-type: none;
+}

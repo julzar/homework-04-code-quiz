@@ -13,7 +13,8 @@ var questions = [
     }
 
   ];
-  
+
+var scoreBoard = []
 var currentQuestion = 0
 var totalTime = 1 * 60 * 1000
 var penaltyTime = 10 * 1000
@@ -26,7 +27,7 @@ function getQuestion() {
         var titleEL = document.createElement("h5");
     titleEL.textContent = questions[currentQuestion].title
     $("#question-title").html(titleEL)
-    $("#question-choices").html("")
+    $("#question-choices").text("")
     questions[currentQuestion].choices.forEach(choice => {
         var choiceEl = document.createElement("button")
 
@@ -56,7 +57,7 @@ $("#question-choices").on('click', function(event) {
             console.log(`Correct!`)
             if (currentQuestion >= questions.length) {
                 stopTimer()
-                getScoreInput()
+               getScoreInput()
             }
         } 
         else {
@@ -90,6 +91,7 @@ function formatTime(ms) {
         var timerEl = document.getElementById('timer')
         timerEl.textContent = `${ minutes }:${ seconds }`
     }  
+    return `${ minutes }:${ seconds }`
 }
 
 function tick() {
@@ -138,21 +140,53 @@ $("#start-quiz").on('click', function() {
 // Navigates to an input form to save score
 function getScoreInput() {
     //window.location = "savescore.html"
-    $("#question-title").html("Enter your innitials")
-    $("#question-choices").html("")
+    $("#question-title").html("Quiz Complete!")
+    $("#question-choices").text("")
     $("#timer").hide()
+    var submitBtn = document.createElement("button")
     var innitialsIn = document.createElement("input")
-    var scoreTime = document.createElement("div")
+    var scoreTime = document.createElement("span")
+    var timeString = formatTime(totalTime)
     innitialsIn.placeholder = "AAA"
     innitialsIn.className = "form-control-inline mr-2"
-    scoreTime.textContent = formatTime(totalTime)
+    submitBtn.className = "btn btn-primary btn-lg"
+    submitBtn.textContent = 'Submit'
+    scoreTime.textContent = `Score: ${timeString}`
     $("#question-choices").append(innitialsIn)
     $("#question-choices").append(scoreTime)
-
-    
-    
-    
+    $("#btn-row").append(submitBtn)
+    submitBtn.addEventListener("click", function(event) {
+        event.preventDefault();
+        // create user object from submission
+        var userScore = {
+            Name: innitialsIn.value,
+            score: formatTime(totalTime)
+        }
+        scoreBoard.push(userScore)
+        localStorage.setItem("scoreBoard", JSON.stringify(scoreBoard))
+        //renderScores()
+        //console.log(scoreBoard)
+        
+    })
 }
+
+function renderScores () {
+    var scoreBoardParsed = JSON.parse(localStorage.getItem("scoreBoard"))
+    scoreBoardParsed.forEach(name => {
+        var scoreBoardEntry = document.createElement("li")
+        scoreBoardEntry.textContent = `${name.Name}-----${name.score}`
+        $("#score-list").prepend(scoreBoardEntry)
+        //console.log(name)
+
+        
+    });
+}
+$("#show-scores").on('click', function() {
+    $("#show-scores").hide()
+    renderScores()
+    console.log(scoreBoard)
+})
+
 
 
 
