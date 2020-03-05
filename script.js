@@ -14,7 +14,16 @@ var questions = [
 
   ];
 
-var scoreBoard = []
+// function renderStartScreen() {
+//     $("#question-title").text(`Rules:`)
+//     $("#rules-text").text(`Answer multiple choice questions about coding!
+//         The timer starts at one minute. Each wrong answer
+//         reduces the remaining time by 10 seconds.
+//         If the timer reaches zero, the game is over!`)
+//     $("#start-quiz").text(`Start`)
+// }
+// renderStartScreen()
+
 var currentQuestion = 0
 var totalTime = 1 * 60 * 1000
 var penaltyTime = 10 * 1000
@@ -139,7 +148,6 @@ $("#start-quiz").on('click', function() {
 
 // Navigates to an input form to save score
 function getScoreInput() {
-    //window.location = "savescore.html"
     $("#question-title").html("Quiz Complete!")
     $("#question-choices").text("")
     $("#timer").hide()
@@ -162,11 +170,11 @@ function getScoreInput() {
             Name: innitialsIn.value,
             score: formatTime(totalTime)
         }
-        scoreBoard.push(userScore)
-        localStorage.setItem("scoreBoard", JSON.stringify(scoreBoard))
-        //renderScores()
-        //console.log(scoreBoard)
-        
+        var storedScores = JSON.parse(localStorage.getItem("scoreBoard"))
+        storedScores.push(userScore)
+        localStorage.setItem("scoreBoard", JSON.stringify(storedScores))
+        $(submitBtn).hide()
+        // renderStartScreen()
     })
 }
 
@@ -176,42 +184,11 @@ function renderScores () {
         var scoreBoardEntry = document.createElement("li")
         scoreBoardEntry.textContent = `${name.Name}-----${name.score}`
         $("#score-list").prepend(scoreBoardEntry)
-        //console.log(name)
-
-        
     });
 }
-$("#show-scores").on('click', function() {
-    $("#show-scores").hide()
+
+$(document).ready(function() {
     renderScores()
-    console.log(scoreBoard)
 })
 
-
-
-
 }) // final closing bracket
-
-
-    // function startTimer() {
-    //     var timeInterval = setInterval(countdown, 1000)
-    //     $("#timer").text(formatTime(totalTime))
-    //     function countdown() {
-    //         formatTime(totalTime)
-    //         tick()
-    //         if (totalTime <= 0) {
-    //             clearInterval(timeInterval)
-    //         }
-    //     }
-    // }
-
-    // function startTimer() {
-//     $("#timer").text(formatTime(totalTime))
-//     var myInterval = setInterval(tick, tickTime)
-//     $("#timer").text(formatTime(totalTime))
-//     console.log(totalTime)
-//     if (totalTime <= 0) {
-//         alert('test')
-//         clearInterval(myInterval)
-//     }
-// }

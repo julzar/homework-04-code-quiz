@@ -31,7 +31,7 @@
           <ul id="score-list">
 
           </ul>
-          <button id="show-scores">Show Scores</button>
+          <!-- <button id="show-scores">Show Scores</button> -->
         </div>
      </div>
 
@@ -42,5 +42,15 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <!-- Custom JavaScript -->
     <script src="script.js"></script>
+    <!-- <script>
+      function renderScores () {
+    var scoreBoardParsed = JSON.parse(localStorage.getItem("scoreBoard"))
+    scoreBoardParsed.forEach(name => {
+        var scoreBoardEntry = document.createElement("li")
+        scoreBoardEntry.textContent = `${name.Name}-----${name.score}`
+        $("#score-list").prepend(scoreBoardEntry)   
+    });
+}
+    </script> -->
   </body>
 </html>
