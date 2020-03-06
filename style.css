@@ -15,6 +15,11 @@
     color: limegreen;
 }
 
+.text-link:hover {
+    cursor: pointer;
+    color: royalblue;
+}
+
 ul {
     list-style-type: none;
 }
